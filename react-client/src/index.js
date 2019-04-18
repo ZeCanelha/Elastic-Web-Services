@@ -1,66 +1,66 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import 'bootstrap/dist/css/bootstrap.css';
+import Navbar from './Components/Navbar.js';
+import UserList from './Components/UserList.js'
+
 import './style.css'
+import 'bootstrap/dist/css/bootstrap.css';
 
 
-class App extends React.Component {
-
+class Manager extends React.Component {
   constructor(props)
   {
     super(props)
-    // TODO: Upload de imagens
     this.state = {
-      homeAddress: '',
-      password: '',
-      email: ''
+      loading : false,
+      load : false,
+      usersData : {}
     }
-
-  this.handleSubmit = this.handleSubmit.bind(this)
-  this.handleChange = this.handleChange.bind(this)
-
   }
 
-  handleChange(evt)
+  componentDidMount()
   {
-    this.setState({[evt.target.name]: evt.target.value})
-  }
-  handleSubmit(evt)
-  {
-    console.log(this.state.email);
-    evt.preventDefault()
+    //API call
+    this.setState({loading : true})
+    fetch("https://swapi.co/api/people/")
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState(
+          {
+            loading : false,
+            load : true,
+            usersData : data
+          })
+      })
+
   }
 
-  render(){
+
+  render()
+  {
+    const text  = this.state.loading ? 'Loading..' : "All users in the system"
+
     return (
-      <div className = "signupForm">
-        <form onSubmit={this.handleSubmit}>
-          <div className = 'form-group'>
-            <label for="email">
-              Email
-              <input type = 'email' className = 'form-control' name = 'email' placeholder = 'Your email here...' onChange={this.handleChange} />
-            </label>
+      <div className="layout">
+        <Navbar />
+        <div id="content">
+          <div className = "displayLeft">
+            <h1>{text}</h1>
           </div>
-          <div className = 'form-group'>
-            <label for="homeAddress">
-              Address
-              <input type = 'text' className = 'form-control' name = 'homeAddress'  placeholder = 'Your address here...' onChange={this.handleChange} />
-            </label>
+          <div className="displayRight">
+            <h1>Expandable</h1>
           </div>
-          <div className = 'form-group'>
-            <label for="password">
-              Password
-              <input type = 'password' className = 'form-control' name = 'password' placeholder = 'Your password here...' onChange={this.handleChange}/>
-            </label>
-          </div>
-          <button type="submit" value="Submit" className = 'btn btn-primary'>Submit</button>
-        </form>
+
+        </div>
+
+
+        //<UserList usersData={this.state.usersData} load={this.state.load}/>
       </div>
-
     );
-
   }
+
 }
 
-ReactDOM.render(<App />, document.getElementById('signup'));
+ReactDOM.render(<Manager />, document.getElementById("myContainer"));
