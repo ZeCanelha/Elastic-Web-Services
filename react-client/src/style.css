@@ -31,10 +31,18 @@ body,html {
 .displayLeft
 {
   width: 50%;
+  padding: 5px;
+
 
 }
 .displayRight
 {
+  text-align: center;
+  padding: 5px;
   width: 50%;
-  text-align: left;
+}
+
+.displayUser
+{
+  display: inline-block;
 }
