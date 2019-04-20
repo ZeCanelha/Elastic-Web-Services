@@ -18,19 +18,21 @@ class UserList extends React.Component {
     });
 
     return (
-      <table className='table'>
-        <thead>
-           <tr>
-             <th>Username</th>
-             <th>Address</th>
-             <th>Status</th>
-             <th>+Info</th>
-           </tr>
-         </thead>
-         <tbody>
-           {bodyData}
-         </tbody>
-      </table>
+      <div className='table-wrapper'>
+        <table className='table'>
+          <thead>
+             <tr>
+               <th>Username</th>
+               <th>Address</th>
+               <th>Status</th>
+               <th>+Info</th>
+             </tr>
+           </thead>
+           <tbody>
+             {bodyData}
+           </tbody>
+        </table>
+      </div>
 
     );
   }

@@ -19,6 +19,23 @@ const data = [
         address: 'Dummy Street 4',
         status: 'Rejected'
       },
+      {
+        name: 'Dennis',
+        address: 'Dummy Street 4',
+        status: 'Rejected'
+      },{
+        name: 'Dennis',
+        address: 'Dummy Street 4',
+        status: 'Rejected'
+      },{
+        name: 'Dennis',
+        address: 'Dummy Street 4',
+        status: 'Rejected'
+      },{
+        name: 'Dennis',
+        address: 'Dummy Street 4',
+        status: 'Rejected'
+      },
     ];
 
 export default data;

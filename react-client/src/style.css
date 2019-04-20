@@ -24,8 +24,13 @@ body,html {
   display: flex;
   margin: 5px;
   padding: 10px;
-  top: 25vh;
+  top: 15vh;
   position: fixed;
+}
+.table-wrapper {
+  max-height: 50vh;
+  overflow: auto;
+  display:inline-block;
 }
 
 .displayLeft
@@ -45,4 +50,15 @@ body,html {
 .displayUser
 {
   display: inline-block;
+}
+
+.textInfo
+{
+  padding: 5px;
+  text-align: center;
+}
+.managerMethods
+{
+  margin-top: 10px;
+  text-align: left;
 }

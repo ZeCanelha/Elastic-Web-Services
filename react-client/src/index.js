@@ -16,6 +16,7 @@ class Manager extends React.Component {
     super(props)
 
     this.state = {
+      searchVal :'',
       show : -1,
       loading : false,
       load : false,
@@ -23,7 +24,26 @@ class Manager extends React.Component {
     }
 
     this.expandUser = this.expandUser.bind(this)
+    this.removeUser = this.removeUser.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
 
+  }
+
+  handleSearch(evt)
+  {
+    console.log(evt.target.value);
+    const name = evt.target.name;
+
+    this.setState({
+      [name]: evt.target.value
+    });
+  }
+
+  handleSubmit(evt)
+  {
+    //TODO: fazer a search
+    evt.preventDefault();
   }
 
   expandUser(index){
@@ -31,8 +51,17 @@ class Manager extends React.Component {
       show : index
     }))
 
-
   }
+
+  removeUser(index){
+    this.setState((prevState) => ({
+      usersData: prevState.usersData.filter((character, i) => {
+        return i !== index
+      }),
+      show : -1
+    }))
+  }
+
 
   // componentDidMount()
   // {
@@ -62,11 +91,30 @@ class Manager extends React.Component {
         <Navbar />
         <div id="content">
           <div className = "displayLeft">
-            <h1>{text}</h1>
-            <UserList usersData={this.state.usersData} expandUser={this.expandUser}/>
+            <form onSubmit={this.handleSubmit}>
+               <div className="form-group">
+                 <label htmlFor='Search'>
+                   <input
+                    type='text'
+                    name='searchVal'
+                    className='form-control'
+                    placeholder='Search user ...'
+                    onChange={this.handleSearch} />
+                 </label>
+                 <button
+                   type="submit"
+                   className="btn btn-primary">Submit</button>
+              </div>
+            </form>
+            <UserList
+              usersData={this.state.usersData}
+              expandUser={this.expandUser}/>
           </div>
           <div className="displayRight">
-              <DisplayUser index={this.state.show} info={this.state.usersData}/>
+              <DisplayUser
+                index={this.state.show}
+                info={this.state.usersData}
+                remove={this.removeUser}/>
           </div>
         </div>
       </div>
