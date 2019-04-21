@@ -4,12 +4,24 @@ class UserList extends React.Component {
 
   render()
   {
-    const bodyData = this.props.usersData.map((user,index) => {
+    var newData = null;
+
+    if (this.props.searchName !== '' )
+    {
+      newData = this.props.usersData.filter( user => {
+        return ( user.name.includes(this.props.searchName) );
+      })
+    }
+    else {
+      newData = this.props.usersData
+    }
+
+    const bodyData = newData.map((user,index) => {
       return(
         <tr key={index}>
           <td>{user.name}</td>
           <td>{user.address}</td>
-          <td className={user.status=='Rejected' ? 'table-danger' : null}>{user.status}</td>
+          <td className={user.status === 'Rejected' ? 'table-danger' : null}>{user.status}</td>
           <td>
             <button  className="btn btn-info" onClick={() => this.props.expandUser(index)}>More</button>
           </td>

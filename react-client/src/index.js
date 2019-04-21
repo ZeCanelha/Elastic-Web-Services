@@ -10,13 +10,26 @@ import './style.css'
 import 'bootstrap/dist/css/bootstrap.css';
 
 
+
+// function SearchMethod(props) {
+//   const name = props.searchName
+//   console.log(name);
+//   return (
+//     <p>Aqui</p>
+//   );
+//
+// }
+
+
+
+
 class Manager extends React.Component {
   constructor(props)
   {
     super(props)
 
     this.state = {
-      searchVal :'',
+      searchName :'',
       show : -1,
       loading : false,
       load : false,
@@ -84,8 +97,7 @@ class Manager extends React.Component {
 
   render()
   {
-    const text  = this.state.loading ? 'Loading..' : "All users in the system"
-    console.log(this.state.show);
+    //const text  = this.state.loading ? 'Loading..' : "All users in the system"
     return (
       <div className="layout">
         <Navbar />
@@ -96,7 +108,7 @@ class Manager extends React.Component {
                  <label htmlFor='Search'>
                    <input
                     type='text'
-                    name='searchVal'
+                    name='searchName'
                     className='form-control'
                     placeholder='Search user ...'
                     onChange={this.handleSearch} />
@@ -106,9 +118,11 @@ class Manager extends React.Component {
                    className="btn btn-primary">Submit</button>
               </div>
             </form>
+
             <UserList
               usersData={this.state.usersData}
-              expandUser={this.expandUser}/>
+              expandUser={this.expandUser}
+              searchName={this.state.searchName}/>
           </div>
           <div className="displayRight">
               <DisplayUser
