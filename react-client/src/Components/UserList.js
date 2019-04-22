@@ -16,14 +16,16 @@ class UserList extends React.Component {
       newData = this.props.usersData
     }
 
-    const bodyData = newData.map((user,index) => {
+    const bodyData = newData.map(user => {
       return(
-        <tr key={index}>
+        <tr key={user.id}>
           <td>{user.name}</td>
           <td>{user.address}</td>
           <td className={user.status === 'Rejected' ? 'table-danger' : null}>{user.status}</td>
           <td>
-            <button  className="btn btn-info" onClick={() => this.props.expandUser(index)}>More</button>
+            <button
+              className="btn btn-info"
+              onClick={() => this.props.expandUser(user.id)}>More</button>
           </td>
         </tr>
       )

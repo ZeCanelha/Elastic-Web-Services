@@ -10,19 +10,6 @@ import './style.css'
 import 'bootstrap/dist/css/bootstrap.css';
 
 
-
-// function SearchMethod(props) {
-//   const name = props.searchName
-//   console.log(name);
-//   return (
-//     <p>Aqui</p>
-//   );
-//
-// }
-
-
-
-
 class Manager extends React.Component {
   constructor(props)
   {
@@ -68,8 +55,8 @@ class Manager extends React.Component {
 
   removeUser(index){
     this.setState((prevState) => ({
-      usersData: prevState.usersData.filter((character, i) => {
-        return i !== index
+      usersData: prevState.usersData.filter( user => {
+        return user.id !== index
       }),
       show : -1
     }))
@@ -97,6 +84,7 @@ class Manager extends React.Component {
 
   render()
   {
+    console.log(this.state.usersData);
     //const text  = this.state.loading ? 'Loading..' : "All users in the system"
     return (
       <div className="layout">
