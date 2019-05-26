@@ -15,10 +15,25 @@ function searchId(array, element)
 class DisplayUser extends React.Component {
 
 
+
+
+
   render()
   {
 
+
     let i = searchId(this.props.info,this.props.index)
+    let a = null
+    if(this.props.index >= 0)
+    {
+      if (this.props.info[i].status === 'Pending') {
+        a = <button className="btn btn-info"
+                onClick={() => this.props.approve(this.props.info[i].id)}>Approve User</button>
+      }
+      else {
+        a = null;
+      }
+    }
 
     return(
       <div className="displayUser">
@@ -35,9 +50,9 @@ class DisplayUser extends React.Component {
 
         <div className="managerMethods">
           {this.props.index >= 0 ?
-            <button  className="btn btn-info"
-            onClick={() => this.props.remove(this.props.info[i].id)}>Delete User</button> :
-            null}
+            <button className="btn btn-info"
+                    onClick={() => this.props.remove(this.props.info[i].id)}>Delete User</button> : null}
+          {a}
         </div>
       </div>
     )

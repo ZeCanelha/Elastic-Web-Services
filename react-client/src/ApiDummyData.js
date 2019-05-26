@@ -26,7 +26,7 @@ const data = [
       {
         name: 'Dennis',
         address: 'Dummy Street 4',
-        status: 'Rejected',
+        status: 'Pending',
         id: 4
       },{
         name: 'Dennis',
@@ -36,7 +36,7 @@ const data = [
       },{
         name: 'Dennis',
         address: 'Dummy Street 4',
-        status: 'Rejected',
+        status: 'Pending',
         id: 6
       },{
         name: 'Dennis',
