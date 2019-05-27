@@ -66,5 +66,10 @@ body,html {
 
 .adminLogin
 {
-  text-align: center;
+  border: 1px groove grey;
+  padding: 50px;
+  margin: auto;
+  margin-top: 100px;
+  width: 75vh;
+  text-align: left;
 }

@@ -1,4 +1,6 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import '../style.css'
 /* Admin login component
   *
   * POST : Para mandar as informações de Login
@@ -24,11 +26,36 @@ class Login extends React.Component {
 
     render () {
         return (
+          <div className = 'adminLogin'>
+            <h3>Manager Login</h3>
             <form>
-                Login <input type="text" value={this.state.login} onChange={this.handleLoginChange}/> <br/>
-                Password <input type="password" value={this.state.password} onChange={this.handlePasswordChange}/> <br/>
-                <input type="button" value="submit" onClick={this.props.login.bind(this.props.parent, this.state.login, this.state.password)}/>
+              <div className = 'form-group'>
+                Login
+                <input className='form-control'
+                type="text"
+                value={this.state.login}
+                onChange={this.handleLoginChange}
+                />
+              </div>
+              <div className = 'form-group'>
+                Password <input
+                className='form-control'
+                type="password" value={this.state.password}
+                onChange={this.handlePasswordChange}
+                />
+              </div>
+              <div className = 'form-group'>
+                <input
+                  type="button"
+                  value="Login"
+                  onClick={this.props.login.bind(this.props.parent, this.state.login, this.state.password)}
+                  className = 'btn btn-primary'
+                  />
+              </div>
+
             </form>
+          </div>
+
         )
     }
 }
