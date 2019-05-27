@@ -19,12 +19,12 @@ class Manager extends React.Component {
     this.state = {
       adminUsername : '',
       adminPassword : '',
-      loggedIn : 1,
-      authToken : '',
+      token : undefined,
       searchName :'',
       show : -1,
       loading : false,
       load : false,
+      errormessage : undefined,
       usersData : ApiDummyData
     }
 
@@ -32,7 +32,6 @@ class Manager extends React.Component {
     this.removeUser = this.removeUser.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
 
   }
 
@@ -56,35 +55,44 @@ class Manager extends React.Component {
      });
    }
 
-   handleLoginSubmit(evt)
-   {
-     console.log(this.state);
-     fetch('https://or7ea8wax8.execute-api.us-east-1.amazonaws.com/register/login',{
-       crossDomain : true,
-       mode : 'cors',
-       method: 'post',
-       headers: {
-         'Accept' : '*/*',
-         'Content-Type':'application/json',
-         'Access-Control-Allow-Origin' : '*',
-         },
-       body: JSON.stringify({
-         "adminUsername" : this.state.adminUsername,
-         "adminPassword" : this.state.adminPassword
-         })
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState(
-          {
-            authToken : data.token
-          })
-      })
+   authenticated(token) {
+        this.setState({ token : token, errormessage : undefined })
+    }
 
-     this.setState({
-       loggedIn : 1
-     });
+    failedauthenticated() {
+        this.setState({ token : undefined, errormessage : 'Authentication Error' })
+    }
+
+
+   doLogin(login,password)
+   {
+     var theobject = this
+     var formParameters = {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify({ 'adminUsername': login, 'adminPassword' : password}),
+        headers:{
+          'Content-Type': 'application/json'
+            }
+        }
+
+     fetch('https://or7ea8wax8.execute-api.us-east-1.amazonaws.com/register/login', formParameters)
+        .then(function(data) {
+          if (data.status!== 200) {
+            theobject.failedauthenticated()
+            throw new Error(data.status)
+          }
+          else {
+                var json = data.json();
+                return json;
+          }
+        })
+        .then(function(thetoken) {
+            console.log('message =', thetoken)
+            if ('token' in thetoken)
+                theobject.authenticated(thetoken['token'])
+        }).catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ', error.message);
+      });
    }
 
 
@@ -146,51 +154,58 @@ class Manager extends React.Component {
   render()
   {
     //const text  = this.state.loading ? 'Loading..' : "All users in the system"
-    return (
 
+    console.log(this.state.token);
 
-      this.state.loggedIn ?
+     if (this.state.errormessage != undefined)
+         var errormessage = <h2>{this.state.errormessage}</h2>
+     else
+         var errormessage = <div/>
+     if (this.state.token == undefined)
+         return (
+             <div>
+                 {errormessage}
+                 <Login parent={this} login={this.doLogin}
+                   />
+             </div>
+         )
+     else
+         return (
+           <div className="layout">
+             <Navbar />
+             <div id="content">
+               <div className = "displayLeft">
+                 <form onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                      <label htmlFor='Search'>
+                        <input
+                         type='text'
+                         name='searchName'
+                         className='form-control'
+                         placeholder='Search user ...'
+                         onChange={this.handleChange} />
+                      </label>
+                      <button
+                        type="submit"
+                        className="btn btn-primary">Submit</button>
+                   </div>
+                 </form>
 
-        <div className="layout">
-          <Navbar />
-          <div id="content">
-            <div className = "displayLeft">
-              <form onSubmit={this.handleSubmit}>
-                 <div className="form-group">
-                   <label htmlFor='Search'>
-                     <input
-                      type='text'
-                      name='searchName'
-                      className='form-control'
-                      placeholder='Search user ...'
-                      onChange={this.handleChange} />
-                   </label>
-                   <button
-                     type="submit"
-                     className="btn btn-primary">Submit</button>
-                </div>
-              </form>
-
-              <UserList
-                usersData={this.state.usersData}
-                expandUser={this.expandUser}
-                searchName={this.state.searchName}/>
-            </div>
-            <div className="displayRight">
-                <DisplayUser
-                  index={this.state.show}
-                  info={this.state.usersData}
-                  remove={this.removeUser}
-                  approve={this.approveUser}/>
-            </div>
-          </div>
-        </div>
-      :
-        <Login
-          change={this.handleChange}
-          submit={this.handleLoginSubmit}
-          />
-    );
+                 <UserList
+                   usersData={this.state.usersData}
+                   expandUser={this.expandUser}
+                   searchName={this.state.searchName}/>
+               </div>
+               <div className="displayRight">
+                   <DisplayUser
+                     index={this.state.show}
+                     info={this.state.usersData}
+                     remove={this.removeUser}
+                     approve={this.approveUser}/>
+               </div>
+             </div>
+           </div>
+         )
   }
 
 }

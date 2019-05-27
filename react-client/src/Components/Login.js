@@ -1,5 +1,4 @@
 import React from 'react';
-
 /* Admin login component
   *
   * POST : Para mandar as informações de Login
@@ -7,41 +6,32 @@ import React from 'react';
 */
 
 class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {login : '', password : ''}
 
-  render()
-  {
-    return(
-      <div className = 'adminLogin'>
-        <form onSubmit={this.props.submit}>
-          <div className='form-group'>
-            <label htmlFor="Username">
-              Username
-              <input
-                type = 'text'
-                name = 'adminPassword'
-                className = 'form-control'
-                onChange = {this.props.change} />
-            </label>
-          </div>
-          <div className='form-group'>
-            <label htmlFor="Password">
-              Password
-              <input
-                type = 'password'
-                name = 'adminUsername'
-                className = 'form-control'
-                onChange = {this.props.change} />
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="btn btn-primary">Login</button>
-        </form>
-      </div>
+        this.handleLoginChange = this.changeLogin.bind(this);
+        this.handlePasswordChange = this.changePassword.bind(this);
+    }
 
-    )
-  }
+    changeLogin(event) {
+        this.setState({ login : event.target.value })
+    }
 
+    changePassword(event) {
+        this.setState({ password : event.target.value })
+    }
+
+    render () {
+        return (
+            <form>
+                Login <input type="text" value={this.state.login} onChange={this.handleLoginChange}/> <br/>
+                Password <input type="password" value={this.state.password} onChange={this.handlePasswordChange}/> <br/>
+                <input type="button" value="submit" onClick={this.props.login.bind(this.props.parent, this.state.login, this.state.password)}/>
+            </form>
+        )
+    }
 }
+
 
 export default Login
