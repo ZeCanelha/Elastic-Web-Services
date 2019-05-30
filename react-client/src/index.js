@@ -135,11 +135,12 @@ class Manager extends React.Component {
 
     console.log(this.state.token);
 
+
      if (this.state.errormessage !== undefined)
          var errormessage = <h2>{this.state.errormessage}</h2>
      else
          var errormessage = <div/>
-     if (this.state.token === undefined)
+     if (this.state.token === undefined && !sessionStorage.getItem("sessionToken") )
          return (
              <div>
                  {errormessage}
@@ -148,9 +149,14 @@ class Manager extends React.Component {
              </div>
          )
      else
-         return (
-           <APIUsers token={this.state.token} />
-         )
+     {
+       sessionStorage.sessionToken = this.state.token;
+       console.log(sessionStorage.getItem("sessionToken"));
+       return (
+         <APIUsers token={this.state.token} />
+       )
+     }
+
   }
 
 }
