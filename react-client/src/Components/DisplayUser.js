@@ -31,7 +31,7 @@ class DisplayUser extends React.Component {
           height : '250px',
           width : '400px'
       }
-      if (this.props.info[i].status === 'Pending') {
+      if (this.props.info[i].status === 0) {
         a = <button className="btn btn-info"
                 onClick={() => this.props.approve(this.props.info[i].id)}>Approve User</button>
       }
@@ -39,7 +39,6 @@ class DisplayUser extends React.Component {
         a = null;
       }
     }
-
 
 
     return(
@@ -58,7 +57,7 @@ class DisplayUser extends React.Component {
         <div className="managerMethods">
           {this.props.index >= 0 ?
             <button className="btn btn-info"
-                    onClick={() => this.props.remove(this.props.info[i].id)}>Delete User</button> : null}
+                    onClick={() => this.props.remove(this.props.info[i].id)}>Reject User</button> : null}
           {a}
         </div>
       </div>

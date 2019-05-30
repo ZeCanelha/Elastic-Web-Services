@@ -7,6 +7,8 @@ import Navbar from './Navbar.js';
 import UserList from './UserList.js'
 import DisplayUser from './DisplayUser.js'
 
+import ApiDummyData from '../ApiDummyData.js'
+
 
 class APIUsers extends React.Component {
     constructor(props) {
@@ -25,7 +27,7 @@ class APIUsers extends React.Component {
       this.removeUser = this.removeUser.bind(this)
       this.handleSubmit = this.handleSubmit.bind(this)
       this.handleChange = this.handleChange.bind(this)
-
+      this.approveUser = this.approveUser.bind(this)
     }
 
     handleChange(evt)
@@ -58,13 +60,76 @@ class APIUsers extends React.Component {
       }))
 
     }
+    approveUser(index){
+
+      var obj = {
+        id : index,
+        status : '1'
+      }
+
+      var formParameters = {
+        method: 'PUT', // or 'PUT'
+        body: JSON.stringify(obj),
+        headers:{
+          'Content-Type': 'application/json'
+            }
+      }
+      fetch('https://or7ea8wax8.execute-api.us-east-1.amazonaws.com/register/setstatus', formParameters)
+         .then(function(data) {
+           if (data.status!== 200) {
+             throw new Error(data.status)
+           }
+           else {
+                 var json = data.json();
+                 return json;
+           }
+         })
+         .then(function(thetoken) {
+             console.log('message =', thetoken)
+
+         }).catch(function(error) {
+           console.log('There has been a problem with your fetch operation: ', error.message);
+       });
+
+
+       this.setState((prevState) => ({
+         show : -1
+       }))
+    }
     removeUser(index){
-      this.setState((prevState) => ({
-        usersData: prevState.usersData.filter( user => {
-          return user.id !== index
-        }),
-        show : -1
-      }))
+      var obj = {
+        id : index,
+        status : '0'
+      }
+
+      var formParameters = {
+        method: 'PUT', // or 'PUT'
+        body: JSON.stringify(obj),
+        headers:{
+          'Content-Type': 'application/json'
+            }
+      }
+      fetch('https://or7ea8wax8.execute-api.us-east-1.amazonaws.com/register/setstatus', formParameters)
+         .then(function(data) {
+           if (data.status!== 200) {
+             throw new Error(data.status)
+           }
+           else {
+                 var json = data.json();
+                 return json;
+           }
+         })
+         .then(function(thetoken) {
+             console.log('message =', thetoken)
+
+         }).catch(function(error) {
+           console.log('There has been a problem with your fetch operation: ', error.message);
+       });
+
+
+       this.setState((prevState) => ({
+         show : -1
+       }))
     }
 
     componentWillMount() {
@@ -73,7 +138,7 @@ class APIUsers extends React.Component {
         console.log('this.props =', this.props)
         fetch("https://or7ea8wax8.execute-api.us-east-1.amazonaws.com/register/listallusers", {
             headers:{
-              //'authorizationToken' : JSON.stringify({ 'token' : this.props.token })
+              'authorizationToken' : JSON.stringify({ 'token' : this.props.token }),
               'Content-Type': 'application/json',
               'Accept': 'application/json'
             }

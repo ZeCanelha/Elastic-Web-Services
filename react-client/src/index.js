@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import Login from './Components/Login.js'
 import APIUsers from "./Components/APIUsers"
 
-import ApiDummyData from './ApiDummyData.js'
 import './style.css'
 import 'bootstrap/dist/css/bootstrap.css';
 
