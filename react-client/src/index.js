@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Navbar from './Components/Navbar.js';
-import UserList from './Components/UserList.js'
-import DisplayUser from './Components/DisplayUser.js'
 import Login from './Components/Login.js'
+import APIUsers from "./Components/APIUsers"
 
 import ApiDummyData from './ApiDummyData.js'
 import './style.css'
@@ -25,7 +23,7 @@ class Manager extends React.Component {
       loading : false,
       load : false,
       errormessage : undefined,
-      usersData : ApiDummyData
+      usersData : {}
     }
 
     this.expandUser = this.expandUser.bind(this)
@@ -34,6 +32,7 @@ class Manager extends React.Component {
     this.handleChange = this.handleChange.bind(this)
 
   }
+
 
   /*
    *
@@ -62,7 +61,6 @@ class Manager extends React.Component {
     failedauthenticated() {
         this.setState({ token : undefined, errormessage : 'Authentication Error' })
     }
-
 
    doLogin(login,password)
    {
@@ -132,36 +130,17 @@ class Manager extends React.Component {
   }
 
 
-  // componentDidMount()
-  // {
-  //   //API call -> promise
-  //   this.setState({loading : true})
-  //   fetch("https://swapi.co/api/people/")
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       this.setState(
-  //         {
-  //           loading : false,
-  //           load : true,
-  //           usersData : data
-  //         })
-  //     })
-  //
-  // }
-
-
   render()
   {
     //const text  = this.state.loading ? 'Loading..' : "All users in the system"
 
     console.log(this.state.token);
 
-     if (this.state.errormessage != undefined)
+     if (this.state.errormessage !== undefined)
          var errormessage = <h2>{this.state.errormessage}</h2>
      else
          var errormessage = <div/>
-     if (this.state.token == undefined)
+     if (this.state.token === undefined)
          return (
              <div>
                  {errormessage}
@@ -171,40 +150,7 @@ class Manager extends React.Component {
          )
      else
          return (
-           <div className="layout">
-             <Navbar />
-             <div id="content">
-               <div className = "displayLeft">
-                 <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                      <label htmlFor='Search'>
-                        <input
-                         type='text'
-                         name='searchName'
-                         className='form-control'
-                         placeholder='Search user ...'
-                         onChange={this.handleChange} />
-                      </label>
-                      <button
-                        type="submit"
-                        className="btn btn-primary">Submit</button>
-                   </div>
-                 </form>
-
-                 <UserList
-                   usersData={this.state.usersData}
-                   expandUser={this.expandUser}
-                   searchName={this.state.searchName}/>
-               </div>
-               <div className="displayRight">
-                   <DisplayUser
-                     index={this.state.show}
-                     info={this.state.usersData}
-                     remove={this.removeUser}
-                     approve={this.approveUser}/>
-               </div>
-             </div>
-           </div>
+           <APIUsers token={this.state.token} />
          )
   }
 

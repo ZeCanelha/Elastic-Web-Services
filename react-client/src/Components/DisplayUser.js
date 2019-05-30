@@ -26,6 +26,11 @@ class DisplayUser extends React.Component {
     let a = null
     if(this.props.index >= 0)
     {
+      var image = "data:image/jpg;base64," + this.props.info[i].image
+      var imageStyle = {
+          height : '250px',
+          width : '400px'
+      }
       if (this.props.info[i].status === 'Pending') {
         a = <button className="btn btn-info"
                 onClick={() => this.props.approve(this.props.info[i].id)}>Approve User</button>
@@ -35,10 +40,12 @@ class DisplayUser extends React.Component {
       }
     }
 
+
+
     return(
       <div className="displayUser">
         <div className='textInfo'>
-          {this.props.index >= 0 ? <img src="https://static.thenounproject.com/png/17241-200.png" alt='John Doe'></img> : null}
+          {this.props.index >= 0 ? <img src={image} alt='John Doe' style ={imageStyle}></img> : null}
           <h3>
             {}
             {this.props.index >= 0 ? this.props.info[i].name : null}
