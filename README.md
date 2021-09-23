@@ -1,1 +1,1 @@
-# Elastica-Web-Services
+# Elastic-Web-Services
